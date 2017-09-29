@@ -11,7 +11,7 @@ Markup is based on [DenDenMarkdown](https://conv.denshochan.com/markdown) defini
 
 ## Install
 
-node.js, browser:
+node.js:
 
 ```bash
 npm install markdown-it-ruby --save

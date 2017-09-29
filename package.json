@@ -5,6 +5,7 @@
   "keyswords": ["markdown-it", "markdown-it-plugin"],
   "license": "MIT",
   "main": "index.js",
+  "repository": "lostandfound/markdown-it-ruby",
   "homepage": "https://github.com/lostandfound/markdown-it-ruby",
   "scripts": {
     "test": "mocha",
