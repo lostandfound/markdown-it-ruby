@@ -4,9 +4,7 @@
 
 > Ruby annotations (`<ruby>`) tag plugin for [markdown-it](https://github.com/markdown-it/markdown-it) markdown parser.
 
-__v1.+ requires `markdown-it` v4.+, see changelog.__
-
-`29^th^` => `29<sup>th</sup>`
+`{ruby base|ruby text}` => `<ruby>ruby base<rt>ruby text</rt></ruby>`
 
 Markup is based on [DenDenMarkdown](https://conv.denshochan.com/markdown) definition. 
 
@@ -17,7 +15,6 @@ node.js, browser:
 
 ```bash
 npm install markdown-it-ruby --save
-bower install markdown-it-ruby --save
 ```
 
 ## Use
