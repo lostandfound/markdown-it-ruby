@@ -1,0 +1,21 @@
+{
+  "name": "markdown-it-ruby",
+  "version": "0.1.0",
+  "description": "Ruby annotation plugin for markdown-it parser.",
+  "keyswords": ["markdown-it", "markdown-it-plugin"],
+  "license": "MIT",
+  "main": "index.js",
+  "homepage": "https://github.com/lostandfound/markdown-it-ruby",
+  "scripts": {
+    "test": "mocha",
+    "lint": "eslint ./index.js"
+  },
+  "author": "Hiroshi Takase",
+  "devDependencies": {
+    "eslint": "^4.7.2",
+    "eslint-plugin-nodeca": "^1.0.3",
+    "markdown-it": "^8.4.0",
+    "markdown-it-testgen": "^0.1.4",
+    "mocha": "^3.5.3"
+  }
+}
