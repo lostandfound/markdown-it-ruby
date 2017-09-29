@@ -1,8 +1,11 @@
 {
   "name": "markdown-it-ruby",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Ruby annotation plugin for markdown-it parser.",
-  "keywords": ["markdown-it", "markdown-it-plugin"],
+  "keywords": [
+    "markdown-it",
+    "markdown-it-plugin"
+  ],
   "license": "MIT",
   "main": "index.js",
   "repository": "lostandfound/markdown-it-ruby",
