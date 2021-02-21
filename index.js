@@ -33,7 +33,7 @@ function ddmd_ruby (state, silent) {
         break;
       }
 
-    } else if (state.src.charCodeAt(state.pos) === 0x7C/* | */ 
+    } else if ((state.src.charCodeAt(state.pos) === 0x7C/* | */ || state.src.charCodeAt(state.pos) === 0x3A/* : */)
       && state.src.charCodeAt(state.pos - 1) !== 0x5C/* \ */) {
       devPos = state.pos;
     }
@@ -56,7 +56,7 @@ function ddmd_ruby (state, silent) {
   rubyText = state.src.slice(devPos + 1, closePos);
 
   baseArray = baseText.split('');
-  rubyArray = rubyText.split('|');
+  rubyArray = rubyText.split(/\||\:/);
 
   if (baseArray.length === rubyArray.length) {
 
