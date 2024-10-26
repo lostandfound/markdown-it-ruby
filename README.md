@@ -11,21 +11,29 @@ Markup is based on [DenDenMarkdown](https://conv.denshochan.com/markdown) defini
 
 ## Install
 
-node.js:
-
 ```bash
 npm install markdown-it-ruby --save
 ```
 
-## Use
+## Usage
 
+### ESM (Recommended)
 ```js
-var md = require('markdown-it')()
-            .use(require('markdown-it-ruby'));
+import MarkdownIt from 'markdown-it';
+import rubyPlugin from 'markdown-it-ruby';
 
-md.render('{ruby base|rubytext}') // => '<p><ruby>ruby base<rt>ruby text</rt></ruby></p>'
+const md = new MarkdownIt().use(rubyPlugin);
+md.render('{ruby base|ruby text}'); // => '<p><ruby>ruby base<rt>ruby text</rt></ruby></p>'
 ```
 
+### CommonJS
+```js
+const MarkdownIt = require('markdown-it');
+const rubyPlugin = require('markdown-it-ruby');
+
+const md = new MarkdownIt().use(rubyPlugin);
+md.render('{ruby base|ruby text}'); // => '<p><ruby>ruby base<rt>ruby text</rt></ruby></p>'
+```
 
 ## License
 
