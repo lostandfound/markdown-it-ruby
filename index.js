@@ -14,28 +14,28 @@
  * @returns {boolean} - Returns true if the ruby annotation was successfully parsed, otherwise false.
  */
 function ddmd_ruby (state, silent) {
-
+  // Initialize required variables
   var token,
       tokens,
       max = state.posMax,
       start = state.pos,
-      devPos,
-      closePos,
-      baseText,
-      rubyText,
-      baseArray,
-      rubyArray;
+      devPos,     // Position of delimiter '|'
+      closePos,   // Position of closing character '}'
+      baseText,   // Base text to apply ruby to
+      rubyText,   // Ruby text to be displayed above
+      baseArray,  // Array of base text characters
+      rubyArray;  // Array of ruby text segments
 
+  // Exit if in silent mode or invalid starting character
   if (silent) { return false; }
   if (state.src.charCodeAt(start) !== 0x7b/* { */) { return false; }
   if (start + 4 >= max) {return false; }
 
+  // Scan text to find delimiter and closing positions
   state.pos = start + 1;
-
   while (state.pos < max) {
-
     if (devPos) {
-
+      // After finding delimiter, look for closing character
       if (
         state.src.charCodeAt(state.pos) === 0x7D/* } */
         && state.src.charCodeAt(state.pos - 1) !== 0x5C/* \ */
@@ -43,12 +43,11 @@ function ddmd_ruby (state, silent) {
         closePos = state.pos;
         break;
       }
-
     } else if (state.src.charCodeAt(state.pos) === 0x7C/* | */ 
       && state.src.charCodeAt(state.pos - 1) !== 0x5C/* \ */) {
+      // Find non-escaped delimiter
       devPos = state.pos;
     }
-
     state.pos++;
   }
 
@@ -63,16 +62,17 @@ function ddmd_ruby (state, silent) {
   token = state.push('ruby_open', 'ruby', 1);
   token.markup  = '{';
 
+  // Extract base text and ruby text
   baseText = state.src.slice(start + 1, devPos);
   rubyText = state.src.slice(devPos + 1, closePos);
 
+  // Split texts into arrays
   baseArray = baseText.split('');
   rubyArray = rubyText.split('|');
 
   if (baseArray.length === rubyArray.length) {
-
+    // Character-by-character ruby: Apply individual ruby text to each base character
     baseArray.forEach(function(content, idx) {
-
       state.md.inline.parse(
         content,
         state.md,
@@ -100,9 +100,8 @@ function ddmd_ruby (state, silent) {
       token = state.push('rt_close', 'rt', -1);
 
     });
-
   } else {
-
+    // Whole-text ruby: Apply single ruby text to entire base text
     state.md.inline.parse(
       baseText,
       state.md,
@@ -131,9 +130,11 @@ function ddmd_ruby (state, silent) {
 
   }
 
+  // Close ruby element
   token = state.push('ruby_close', 'ruby', -1);
   token.markup  = '}';
 
+  // Update parser position
   state.pos = state.posMax + 1;
   state.posMax = max;
 
