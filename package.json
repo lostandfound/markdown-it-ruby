@@ -10,16 +10,28 @@
   "main": "index.js",
   "repository": "lostandfound/markdown-it-ruby",
   "homepage": "https://github.com/lostandfound/markdown-it-ruby",
+  "type": "module",
   "scripts": {
     "test": "mocha",
-    "lint": "eslint ./index.js"
+    "lint": "npx eslint ."
+  },
+  "mocha": {
+    "extensions": [
+      "js",
+      "mjs"
+    ]
   },
   "author": "Hiroshi Takase",
   "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/eslint__js": "^8.42.3",
     "eslint": "^9.13.0",
     "eslint-plugin-nodeca": "^1.0.3",
+    "globals": "^15.11.0",
     "markdown-it": "^14.1.0",
     "markdown-it-testgen": "^0.1.4",
-    "mocha": "^10.7.3"
+    "mocha": "^10.7.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.11.0"
   }
 }

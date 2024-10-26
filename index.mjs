@@ -1,7 +1,5 @@
 // Process {ruby base|ruby text}
 
-'use strict';
-
 /**
  * Parses and processes custom ruby annotation syntax within a Markdown string.
  * 
@@ -144,6 +142,6 @@ function ddmd_ruby (state, silent) {
   return true;
 }
 
-module.exports = md => {
+export default md => {
   md.inline.ruler.before('text', 'ddmd_ruby', ddmd_ruby);
 };
