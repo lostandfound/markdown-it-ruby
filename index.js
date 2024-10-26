@@ -51,9 +51,17 @@ function ddmd_ruby (state, silent) {
     state.pos++;
   }
 
-  if (!closePos || start + 1 === state.pos) {
+  if (!devPos) {
     state.pos = start;
-    return false;
+    return false; // Delimiter '|' not found
+  }
+  if (!closePos) {
+    state.pos = start;
+    return false; // Closing brace '}' not found
+  }
+  if (start + 1 === state.pos) {
+    state.pos = start;
+    return false; // Empty content
   }
 
   state.posMax = state.pos;
@@ -67,11 +75,16 @@ function ddmd_ruby (state, silent) {
   rubyText = state.src.slice(devPos + 1, closePos);
 
   // Split texts into arrays
-  baseArray = baseText.split('');
-  rubyArray = rubyText.split('|');
+  baseArray = Array.from(baseText); // Unicode対応のため Array.from を使用
 
+  if (rubyText.includes('|')) {
+    rubyArray = rubyText.split('|');
+  } else {
+    rubyArray = [rubyText];
+  }
+
+  // Character-by-character ruby: Apply individual ruby text to each base character
   if (baseArray.length === rubyArray.length) {
-    // Character-by-character ruby: Apply individual ruby text to each base character
     baseArray.forEach(function(content, idx) {
       state.md.inline.parse(
         content,
