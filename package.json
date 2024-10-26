@@ -1,6 +1,6 @@
 {
   "name": "markdown-it-ruby",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Ruby annotation plugin for markdown-it parser.",
   "keywords": [
     "markdown-it",
