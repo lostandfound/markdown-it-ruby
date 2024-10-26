@@ -2,6 +2,17 @@
 
 'use strict';
 
+/**
+ * Parses and processes custom ruby annotation syntax within a Markdown string.
+ * 
+ * This function identifies and processes text wrapped in curly braces `{}` 
+ * with a vertical bar `|` separating the base text and the ruby text. 
+ * It then generates the appropriate tokens for rendering ruby annotations.
+ * 
+ * @param {Object} state - The state object of the Markdown parser.
+ * @param {boolean} silent - If true, the function will not produce any tokens.
+ * @returns {boolean} - Returns true if the ruby annotation was successfully parsed, otherwise false.
+ */
 function ddmd_ruby (state, silent) {
 
   var token,
