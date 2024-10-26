@@ -35,6 +35,25 @@ const md = new MarkdownIt().use(rubyPlugin);
 md.render('{ruby base|ruby text}'); // => '<p><ruby>ruby base<rt>ruby text</rt></ruby></p>'
 ```
 
+### Options
+
+You can pass options to the plugin:
+
+```js
+const md = new MarkdownIt().use(rubyPlugin, {
+  rp: ['(', ')'] // Add parentheses around ruby text
+});
+
+// Output: <ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>
+md.render('{漢字|かんじ}');
+```
+
+#### Available Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `rp` | `[string, string]` | `['', '']` | Array of opening and closing parentheses to wrap around ruby text. When both values are empty strings, no `rp` elements will be output. |
+
 ## License
 
 [MIT](https://github.com/lostandfound/markdown-it-ruby/blob/master/LICENSE)
