@@ -75,9 +75,9 @@ function ddmd_ruby (state, silent) {
   rubyText = state.src.slice(devPos + 1, closePos);
 
   // Split texts into arrays
-  baseArray = Array.from(baseText); // Unicode対応のため Array.from を使用
+  baseArray = Array.from(baseText); // Use Array.from for Unicode support
 
-  // rubyArrayの長さチェックを追加
+  // Add length check for rubyArray
   if (rubyText.includes('|')) {
     rubyArray = rubyText.split('|').filter(text => text.length > 0);
     if (rubyArray.length === 0) {
@@ -88,14 +88,14 @@ function ddmd_ruby (state, silent) {
     rubyArray = [rubyText];
   }
 
-  // トークン生成の共通処理を関数化
+  // Common function for token generation
   function parseAndPushTokens(content) {
     const tokens = [];
     state.md.inline.parse(content, state.md, state.env, tokens);
     tokens.forEach(t => state.tokens.push(t));
   }
 
-  // Character-by-character rubyの処理を最適化
+  // Optimize character-by-character ruby processing
   if (baseArray.length === rubyArray.length) {
     baseArray.forEach((content, idx) => {
       parseAndPushTokens(content);
