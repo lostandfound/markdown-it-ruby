@@ -15,10 +15,10 @@
  */
 function ddmd_ruby (state, silent) {
   // Initialize required variables
-  var token,
+  const max = state.posMax;
+  const start = state.pos;
+  let token,
       tokens,
-      max = state.posMax,
-      start = state.pos,
       devPos,     // Position of delimiter '|'
       closePos,   // Position of closing character '}'
       baseText,   // Base text to apply ruby to
@@ -77,41 +77,31 @@ function ddmd_ruby (state, silent) {
   // Split texts into arrays
   baseArray = Array.from(baseText); // Unicode対応のため Array.from を使用
 
+  // rubyArrayの長さチェックを追加
   if (rubyText.includes('|')) {
-    rubyArray = rubyText.split('|');
+    rubyArray = rubyText.split('|').filter(text => text.length > 0);
+    if (rubyArray.length === 0) {
+      state.pos = start;
+      return false;
+    }
   } else {
     rubyArray = [rubyText];
   }
 
-  // Character-by-character ruby: Apply individual ruby text to each base character
+  // トークン生成の共通処理を関数化
+  function parseAndPushTokens(content) {
+    const tokens = [];
+    state.md.inline.parse(content, state.md, state.env, tokens);
+    tokens.forEach(t => state.tokens.push(t));
+  }
+
+  // Character-by-character rubyの処理を最適化
   if (baseArray.length === rubyArray.length) {
-    baseArray.forEach(function(content, idx) {
-      state.md.inline.parse(
-        content,
-        state.md,
-        state.env,
-        tokens = []
-      );
-
-      tokens.forEach(function(t) {
-        state.tokens.push(t);
-      });
-
+    baseArray.forEach((content, idx) => {
+      parseAndPushTokens(content);
       token = state.push('rt_open', 'rt', 1);
-
-      state.md.inline.parse(
-        rubyArray[idx],
-        state.md,
-        state.env,
-        tokens = []
-      );
-
-      tokens.forEach(function(t) {
-        state.tokens.push(t);
-      });
-
+      parseAndPushTokens(rubyArray[idx]);
       token = state.push('rt_close', 'rt', -1);
-
     });
   } else {
     // Whole-text ruby: Apply single ruby text to entire base text
@@ -154,6 +144,6 @@ function ddmd_ruby (state, silent) {
   return true;
 }
 
-module.exports = function ruby_plugin(md) {
+module.exports = md => {
   md.inline.ruler.before('text', 'ddmd_ruby', ddmd_ruby);
 };
