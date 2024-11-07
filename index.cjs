@@ -41,6 +41,63 @@ function ddmd_ruby (state, silent) {
   if (state.src.charCodeAt(start) !== 0x7b/* { */) { return false; }
   if (start + 4 >= max) { return false; }
 
+  // Scan text to find delimiter and closing positions
+  state.pos = start + 1;
+  while (state.pos < max) {
+    if (devPos) {
+      // After finding delimiter, look for closing character
+      if (
+        state.src.charCodeAt(state.pos) === 0x7D/* } */
+        && state.src.charCodeAt(state.pos - 1) !== 0x5C/* \ */
+      ) {
+        closePos = state.pos;
+        break;
+      }
+    } else if (state.src.charCodeAt(state.pos) === 0x7C/* | */ 
+      && state.src.charCodeAt(state.pos - 1) !== 0x5C/* \ */) {
+      // Find non-escaped delimiter
+      devPos = state.pos;
+    }
+    state.pos++;
+  }
+
+  if (!devPos) {
+    state.pos = start;
+    return false; // Delimiter '|' not found
+  }
+  if (!closePos) {
+    state.pos = start;
+    return false; // Closing brace '}' not found
+  }
+  if (start + 1 === state.pos) {
+    state.pos = start;
+    return false; // Empty content
+  }
+
+  state.posMax = state.pos;
+  state.pos = start + 1;
+
+  token = state.push('ruby_open', 'ruby', 1);
+  token.markup = '{';
+
+  // Extract base text and ruby text
+  baseText = state.src.slice(start + 1, devPos);
+  rubyText = state.src.slice(devPos + 1, closePos);
+
+  // Split texts into arrays
+  baseArray = Array.from(baseText); // Use Array.from for Unicode support
+
+  // Add length check for rubyArray
+  if (rubyText.includes('|')) {
+    rubyArray = rubyText.split('|').filter(text => text.length > 0);
+    if (rubyArray.length === 0) {
+      state.pos = start;
+      return false;
+    }
+  } else {
+    rubyArray = [rubyText];
+  }
+
   // Common function for token generation
   function parseAndPushTokens(content) {
     const tokens = [];
