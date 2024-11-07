@@ -1,23 +1,18 @@
 'use strict';
 
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-import generate from 'markdown-it-testgen';
-import MarkdownIt from 'markdown-it';
-import rubyPlugin from '../index.mjs';
-import { describe, it } from 'mocha';
-import assert from 'assert';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const path = require('path');
+const generate = require('markdown-it-testgen');
+const MarkdownIt = require('markdown-it');
+const rubyPlugin = require('../index.cjs');
+const assert = require('assert');
 
 /*eslint-env mocha*/
 
-describe('markdown-it-ruby (ESM)', () => {
+describe('markdown-it-ruby (CommonJS)', () => {
   const md = new MarkdownIt()
     .use(rubyPlugin);
 
-  generate(join(__dirname, 'fixtures/ruby.txt'), md);
+  generate(path.join(__dirname, 'fixtures/ruby.txt'), md);
 
   describe('rp option', () => {
     it('should add rp elements when rp option is provided', () => {
@@ -47,4 +42,4 @@ describe('markdown-it-ruby (ESM)', () => {
       );
     });
   });
-});
+}); 
