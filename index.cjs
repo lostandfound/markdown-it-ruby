@@ -1,3 +1,5 @@
+/* eslint-env node */
+/* eslint-disable no-undef */
 'use strict';
 
 /**
