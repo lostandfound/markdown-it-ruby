@@ -114,7 +114,7 @@ function ddmd_ruby (state, silent) {
       
       if (shouldOutputRp) {
         // Generate opening rp token
-        token = state.push('rp_open', 'rp', 1);
+        token = state.push('rp_open', 'rp', 0);
         token.content = rpOpen;
         token.markup = rpOpen;
       }
@@ -125,7 +125,7 @@ function ddmd_ruby (state, silent) {
       
       if (shouldOutputRp) {
         // Generate closing rp token
-        token = state.push('rp_close', 'rp', 1);
+        token = state.push('rp_close', 'rp', 0);
         token.content = rpClose;
         token.markup = rpClose;
       }
@@ -145,7 +145,7 @@ function ddmd_ruby (state, silent) {
 
     if (shouldOutputRp) {
       // Generate opening rp token
-      token = state.push('rp_open', 'rp', 1);
+      token = state.push('rp_open', 'rp', 0);
       token.content = rpOpen;
       token.markup = rpOpen;
     }
@@ -165,7 +165,7 @@ function ddmd_ruby (state, silent) {
 
     if (shouldOutputRp) {
       // Generate closing rp token
-      token = state.push('rp_close', 'rp', 1);
+      token = state.push('rp_close', 'rp', 0);
       token.content = rpClose;
       token.markup = rpClose;
     }
