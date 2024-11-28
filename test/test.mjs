@@ -38,6 +38,15 @@ describe('markdown-it-ruby (ESM)', () => {
       );
     });
 
+    it('should work when surrounded with other token', () => {
+      const mdWithRp = new MarkdownIt().use(rubyPlugin, { rp: ['(', ')'] });
+      const result = mdWithRp.render('*{漢字|かんじ}*');
+      assert.strictEqual(
+        result.trim(),
+        '<p><em><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby></em></p>'
+      );
+    });
+
     it('should not add rp elements when rp option is empty strings', () => {
       const mdWithEmptyRp = new MarkdownIt().use(rubyPlugin, { rp: ['', ''] });
       const result = mdWithEmptyRp.render('{漢字|かんじ}');
